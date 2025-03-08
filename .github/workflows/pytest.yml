@@ -45,7 +45,7 @@ jobs:
           pytest --browser=chrome --html=reports/test_report.html --self-contained-html
 
       - name: 📤 Upload Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: HTML Test Report
           path: reports/test_report.html
