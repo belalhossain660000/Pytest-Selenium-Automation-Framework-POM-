@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Run the tests
+      - name: Run Tests
+        run: |
+          pytest --browser=chrome --html=reports/test_report.html --self-contained-html
+
+      # Step 5: Upload test report as artifact
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: HTML Test Report
+          path: reports/test_report.html
