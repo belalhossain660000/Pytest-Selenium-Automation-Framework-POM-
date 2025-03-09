@@ -4,7 +4,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.edge.service import Service as EdgeService
-from webdriver_manager.microsoft import EdgeDriverManager
+# from webdriver_manager.microsoft import EdgeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import pytest
 import os
 
@@ -27,7 +28,7 @@ def get_driver(browser_name='chrome'):
         options = webdriver.EdgeOptions()
         options.add_argument('--start-maximized')
         # options.add_argument('--headless')  # Remove this for running with UI
-        driver = webdriver.Edge(service=EdgeService(EdgeDriverManager().install()), options=options)
+        driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()), options=options)
 
     else:
         raise ValueError(f"Unsupported browser: {browser_name}")
