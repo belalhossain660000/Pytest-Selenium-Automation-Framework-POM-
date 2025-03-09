@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Selenium Pytest CI/CD
 
 on:
   push:
@@ -29,14 +29,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 4: Run the tests
-      - name: Run Tests
+      # Step 4: Install Chrome and ChromeDriver for Selenium
+      - name: Install Chrome and ChromeDriver
         run: |
-          pytest --browser=chrome --html=reports/test_report.html --self-contained-html
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y chromium-chromedriver
+          echo "Chrome and ChromeDriver Installed"
 
-      # Step 5: Upload test report as artifact
+      # Step 5: Run Selenium Tests with Pytest
+      - name: Run Selenium Tests
+        run: |
+          pytest --browser=chrome --headless --html=reports/test_report.html --self-contained-html
+
+      # Step 6: Upload HTML Test Report as Artifact
       - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
-          name: HTML Test Report
+          name: Test Report
           path: reports/test_report.html
